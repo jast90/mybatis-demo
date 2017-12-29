@@ -53,9 +53,7 @@ public class MybatisDemoApplicationTests {
     public void testSaveAllCity() {
         List<City> cityList = ProvinceHandler.getAllCity();
         for (City city : cityList) {
-            City city1 = new City();
-            BeanUtils.copyProperties(city, city1);
-            saveCity(city1);
+            saveCity(city);
         }
     }
 
