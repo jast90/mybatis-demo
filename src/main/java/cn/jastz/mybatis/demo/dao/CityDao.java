@@ -1,7 +1,7 @@
 package cn.jastz.mybatis.demo.dao;
 
 
-import cn.jastz.mybatis.demo.domain.City;
+import me.jastz.common.china.district.City;
 
 import java.util.List;
 
