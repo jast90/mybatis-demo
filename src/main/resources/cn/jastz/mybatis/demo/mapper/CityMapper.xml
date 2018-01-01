@@ -21,4 +21,9 @@
         SELECT * FROM city WHERE id=#{id}
     </select>
 
+    <select id="queryPage" resultType="city"
+            parameterType="map">
+      SELECT * FROM city
+    </select>
+
 </mapper>

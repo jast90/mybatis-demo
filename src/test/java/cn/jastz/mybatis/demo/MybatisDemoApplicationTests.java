@@ -1,12 +1,13 @@
 package cn.jastz.mybatis.demo;
 
 import cn.jastz.mybatis.demo.dao.CityDao;
+import cn.jastz.page.domain.PageRequest;
+import cn.jastz.page.mybatis.PageResultHandler;
 import com.google.common.collect.Lists;
 import me.jastz.common.china.district.City;
 import me.jastz.common.china.district.ProvinceHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -68,6 +69,13 @@ public class MybatisDemoApplicationTests {
         } else {
             cityDao.save(city);
         }
+    }
+
+    @Test
+    public void queryPage() {
+        PageResultHandler pageResultHandler = new PageResultHandler();
+        cityDao.queryPage(PageRequest.of(1, 15), pageResultHandler);
+        System.out.println(pageResultHandler.getPage().getContent());
     }
 
 }
