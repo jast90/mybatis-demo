@@ -3,7 +3,7 @@ package cn.jastz.mybatis.demo.dao;
 
 import cn.jastz.page.domain.PageRequest;
 import me.jastz.common.china.district.City;
-import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public interface CityDao {
 
     City queryById(int id);
 
-    void queryPage(PageRequest pageRequest, ResultHandler resultHandler);
+    List<City> queryPage(@Param("pageRequest") PageRequest pageRequest, @Param("name") String name);
 }

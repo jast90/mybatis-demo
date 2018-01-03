@@ -23,7 +23,7 @@
 
     <select id="queryPage" resultType="city"
             parameterType="map">
-      SELECT * FROM city
+      SELECT * FROM city WHERE name LIKE concat("%",#{name},"%")
     </select>
 
 </mapper>
