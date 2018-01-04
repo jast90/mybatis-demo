@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class Mybatis {
+public class MybatisConfig {
     @Bean
     public PageInterceptor pageInterceptor() {
         return new PageInterceptor();

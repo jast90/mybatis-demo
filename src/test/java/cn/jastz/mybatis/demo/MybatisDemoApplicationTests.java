@@ -75,11 +75,7 @@ public class MybatisDemoApplicationTests {
 
     @Test
     public void queryPage() {
-//        PageResultHandler pageResultHandler = new PageResultHandler();
-
-//        System.out.println(pageResultHandler.getPage().getContent());
-//        cityDao.queryPage(PageRequest.of(1, 15), pageResultHandler);
-        List<City> cityPage = cityDao.queryPage(PageRequest.of(0, 15), "深圳");
+        List<City> cityPage = cityDao.queryPage(PageRequest.of(1, 30), "");
         if (cityPage instanceof Page) {
             Page page = (Page) cityPage;
             System.out.println(JsonUtil.objectToPrettyJson(page.getContent()));
