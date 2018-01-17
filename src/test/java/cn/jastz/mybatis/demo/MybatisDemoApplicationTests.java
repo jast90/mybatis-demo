@@ -82,4 +82,12 @@ public class MybatisDemoApplicationTests {
         }
     }
 
+    @Test
+    public void testHashCode() {
+        City city = cityDao.queryById(1);
+        City city2 = cityDao.queryById(1);
+        System.out.println(city.hashCode());
+        System.out.println(city2.hashCode());
+        assertTrue(city.equals(city2));
+    }
 }
