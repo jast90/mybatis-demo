@@ -4,6 +4,9 @@
     <title>首页</title>
 </head>
 <body>
-<p>Hello <strong>world</strong>!</p>
+<ol class="breadcrumb">
+    <li><a href="#">管理系统</a></li>
+    <li class="active">首页</li>
+</ol>
 </body>
 </html>

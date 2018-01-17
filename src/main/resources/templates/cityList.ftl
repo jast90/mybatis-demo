@@ -4,7 +4,12 @@
     <title>城市列表</title>
 </head>
 <body>
-<table>
+<ol class="breadcrumb">
+    <li><a href="#">管理系统</a></li>
+    <li><a href="#">首页</a></li>
+    <li class="active">城市列表</li>
+</ol>
+<table class="table">
          <#list page.content as item>
              <tr>
                  <td>${item.name!""}</td>
