@@ -3,6 +3,7 @@
 <head>
     <title>城市列表</title>
 </head>
+<#include "sideBar.ftl">
 <body>
 <ol class="breadcrumb">
     <li><a href="#">管理系统</a></li>
