@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -19,9 +20,10 @@ public class CityController {
     @Autowired
     private CityService cityService;
 
-    @GetMapping("page")
-    public String queryPage(int pageNumber, int pageSize, Model model) {
-        model.addAttribute("page", cityService.queryPage(PageRequest.of(pageNumber - 1, pageSize)));
+    @GetMapping("{pageNumber}")
+    public String queryPage(@PathVariable("pageNumber") int pageNumber, Model model) {
+        model.addAttribute("title", "城市列表");
+        model.addAttribute("page", cityService.queryPage(PageRequest.of(pageNumber - 1, 15)));
         return "cityList";
     }
 }

@@ -1,17 +1,20 @@
-<sideBar>
+<side-bar>
     <ul class="sidebar-menu tree" data-widget="tree">
         <li class="header">XXX导航</li>
-        <li class="treeview">
+        <!-- 当前链接存在该路径下时设置active和menu-open class-->
+        <li class="treeview active menu-open">
             <a href="#">
                 <i class="fa fa-dashboard"></i>
-                <span>菜单1</span>
+                <span>中国行政区划</span>
                 <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
             </a>
             <ul class="treeview-menu">
-                <li>
-                    <a href="#"><i class="fa fa-circle-o"></i> 菜单1.1</a>
+
+                <li class="active">
+                    <a href="${requestContext.getContextPath()}/city/1"><i class="fa fa-circle-o"></i>
+                        城市列表</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-circle-o"></i> 菜单1.2</a>
@@ -42,4 +45,4 @@
             </ul>
         </li>
     </ul>
-</sideBar>
+</side-bar>

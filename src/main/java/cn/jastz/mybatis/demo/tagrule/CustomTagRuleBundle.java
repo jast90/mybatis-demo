@@ -9,11 +9,13 @@ import org.sitemesh.tagprocessor.State;
 /**
  * @author zhiwen
  */
-public class SideBarRuleBundle implements TagRuleBundle {
+public class CustomTagRuleBundle implements TagRuleBundle {
     @Override
     public void install(State defaultState, ContentProperty contentProperty, SiteMeshContext siteMeshContext) {
-        defaultState.addRule("sideBar", new ExportTagToContentRule(siteMeshContext
+        defaultState.addRule("side-bar", new ExportTagToContentRule(siteMeshContext
                 , contentProperty.getChild("sideBar"), false));
+        defaultState.addRule("top-nav", new ExportTagToContentRule(siteMeshContext
+                , contentProperty.getChild("topNav"), false));
     }
 
     @Override

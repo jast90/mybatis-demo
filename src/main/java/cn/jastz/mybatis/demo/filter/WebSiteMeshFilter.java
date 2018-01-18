@@ -1,6 +1,6 @@
 package cn.jastz.mybatis.demo.filter;
 
-import cn.jastz.mybatis.demo.tagrule.SideBarRuleBundle;
+import cn.jastz.mybatis.demo.tagrule.CustomTagRuleBundle;
 import org.sitemesh.builder.SiteMeshFilterBuilder;
 import org.sitemesh.config.ConfigurableSiteMeshFilter;
 
@@ -16,6 +16,6 @@ public class WebSiteMeshFilter extends ConfigurableSiteMeshFilter {
     protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) {
         builder.addDecoratorPath("/*"
                 , "/decorator/default.html")
-                .addTagRuleBundle(new SideBarRuleBundle());
+                .addTagRuleBundle(new CustomTagRuleBundle());
     }
 }

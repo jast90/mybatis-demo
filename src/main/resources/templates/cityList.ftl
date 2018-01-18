@@ -3,14 +3,9 @@
 <head>
     <title>城市列表</title>
 </head>
-<#include "sideBar.ftl">
+<#include "common/common.ftl">
 <body>
-<ol class="breadcrumb">
-    <li><a href="#">管理系统</a></li>
-    <li><a href="#">首页</a></li>
-    <li class="active">城市列表</li>
-</ol>
-<table class="table">
+<table class="table table-bordered">
          <#list page.content as item>
              <tr>
                  <td>${item.name!""}</td>
@@ -20,6 +15,6 @@
              </tr>
          </#list>
 </table>
-    <@pagination modelName="page" url="${request.getContextPath()}/city/page"></@pagination>
+    <@pagination modelName="page" url="${requestContext.getContextPath()}/city/page"></@pagination>
 </body>
 </html>

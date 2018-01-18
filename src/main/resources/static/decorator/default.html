@@ -14,7 +14,7 @@
     <link href="/components/adminLTE/css/skins/_all-skins.min.css" rel="stylesheet">
     <sitemesh:write property='head'/>
 </head>
-<body class="skin-black sidebar-mini">
+<body class="skin-blue sidebar-mini">
 <div class="wrapper" style="height: auto; min-height: 100%;">
     <header class="main-header">
         <a href="/" class="logo">
@@ -35,7 +35,12 @@
         </section>
     </aside>
     <div class="content-wrapper" style="min-height: 901px;">
-        <sitemesh:write property='body'/>
+        <section class="content-header">
+            <sitemesh:write property='topNav'/>
+        </section>
+        <section class="content">
+            <sitemesh:write property='body'/>
+        </section>
     </div>
 </div>
 <script src="/components/jquery/jquery-3.2.1.js"></script>
