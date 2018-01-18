@@ -11,12 +11,14 @@
                         </span>
             </a>
             <ul class="treeview-menu">
-                <li <#if requestContext.getRequestUri()?contains("/city/")> class="active"</#if>>
+                <!-- 当前路径存在菜单组中当前菜单组展开 -->
+                <li <#if requestContext.getRequestUri()?contains("/city/") || requestContext.getRequestUri()?contains("/city/")>
+                        class="active"</#if>>
                     <a href="${requestContext.getContextPath()}/city/1"><i class="fa fa-circle-o"></i>
                         城市列表</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-circle-o"></i> 菜单1.2</a>
+                    <a href="#"><i class="fa fa-circle-o"></i>菜单1.2</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-circle-o"></i> 菜单1.3</a>
