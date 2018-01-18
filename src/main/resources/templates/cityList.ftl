@@ -15,6 +15,6 @@
              </tr>
          </#list>
 </table>
-    <@pagination modelName="page" url="${requestContext.getContextPath()}/city/page"></@pagination>
+    <@pagination modelName="page" url="${requestContext.getContextPath()}/city"></@pagination>
 </body>
 </html>
