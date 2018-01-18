@@ -5,7 +5,7 @@
 </head>
 <body>
 <ol class="breadcrumb">
-    <li><a href="#">管理系统</a></li>
+    <li><a href="#">XXX系统</a></li>
     <li class="active">首页</li>
 </ol>
 </body>

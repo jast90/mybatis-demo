@@ -7,42 +7,58 @@
     <title>
         <sitemesh:write property='title'/>
     </title>
-    <link href="/css/bootstrap.css" rel="stylesheet">
-    <link href="/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="/components/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/components/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="/components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/components/adminLTE/css/AdminLTE.min.css" rel="stylesheet">
+    <link href="/components/adminLTE/css/skins/_all-skins.min.css" rel="stylesheet">
     <sitemesh:write property='head'/>
 </head>
-<body>
-<div class="container-fluid">
-    <div class="col-md-2">
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="heading1">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1"
-                           aria-expanded="true" aria-controls="collapse1">
-                            用户管理
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapse1" class="panel-collapse collapse in" role="tabpanel"
-                     aria-labelledby="heading1">
-                    <div class="panel-body">
-                        <ul>
-                            <li>用户列表</li>
-                            <li>用户列表</li>
-                            <li>用户列表</li>
-                            <li>用户列表</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-10">
+<body class="skin-black sidebar-mini">
+<div class="wrapper" style="height: auto; min-height: 100%;">
+    <header class="main-header">
+        <a href="/" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>A</b>LT</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Admin</b>LTE</span>
+        </a>
+        <nav class="navbar navbar-static-top">
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+        </nav>
+    </header>
+    <aside class="main-sidebar">
+        <section class="sidebar" style="height: auto;">
+            <ul class="sidebar-menu tree" data-widget="tree">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Dashboard</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a>
+                        </li>
+                        <li>
+                            <a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </aside>
+    <div class="content-wrapper" style="min-height: 901px;">
         <sitemesh:write property='body'/>
     </div>
 </div>
-<script src="/js/jquery-3.2.1.js"></script>
-<script src="/js/bootstrap.js"></script>
+<script src="/components/jquery/jquery-3.2.1.js"></script>
+<script src="/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="/components/adminLTE/js/adminlte.min.js"></script>
 </body>
 </html>
