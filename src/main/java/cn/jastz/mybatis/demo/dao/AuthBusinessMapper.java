@@ -1,6 +1,9 @@
 package cn.jastz.mybatis.demo.dao;
 
 import cn.jastz.mybatis.demo.entity.AuthBusiness;
+import cn.jastz.page.domain.PageRequest;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface AuthBusinessMapper {
@@ -13,4 +16,6 @@ public interface AuthBusinessMapper {
     List<AuthBusiness> selectAll();
 
     int updateByPrimaryKey(AuthBusiness record);
+
+    List<AuthBusiness> queryPage(@Param("pageRequest") PageRequest pageRequest);
 }

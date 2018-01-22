@@ -16,6 +16,8 @@ public class CustomTagRuleBundle implements TagRuleBundle {
                 , contentProperty.getChild("sideBar"), false));
         defaultState.addRule("top-nav", new ExportTagToContentRule(siteMeshContext
                 , contentProperty.getChild("topNav"), false));
+        defaultState.addRule("javascript", new ExportTagToContentRule(siteMeshContext
+                , contentProperty.getChild("javascript"), false));
     }
 
     @Override

@@ -3,6 +3,7 @@
 <mapper namespace="cn.jastz.mybatis.demo.dao.AuthOrganizationMapper">
   <resultMap id="BaseResultMap" type="cn.jastz.mybatis.demo.entity.AuthOrganization">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="business_id" jdbcType="INTEGER" property="businessId" />
@@ -16,16 +17,19 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.jastz.mybatis.demo.entity.AuthOrganization">
-    insert into auth_organization (id, code, parent_id, 
-      business_id, enable, del_status, 
-      created_time, updated_tine)
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
-      #{businessId,jdbcType=INTEGER}, #{enable,jdbcType=TINYINT}, #{delStatus,jdbcType=TINYINT}, 
-      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTine,jdbcType=TIMESTAMP})
+    insert into auth_organization (id, name, code, 
+      parent_id, business_id, enable, 
+      del_status, created_time, updated_tine
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=INTEGER}, #{businessId,jdbcType=INTEGER}, #{enable,jdbcType=TINYINT}, 
+      #{delStatus,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTine,jdbcType=TIMESTAMP}
+      )
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.jastz.mybatis.demo.entity.AuthOrganization">
     update auth_organization
-    set code = #{code,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       business_id = #{businessId,jdbcType=INTEGER},
       enable = #{enable,jdbcType=TINYINT},
@@ -35,12 +39,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, code, parent_id, business_id, enable, del_status, created_time, updated_tine
+    select id, name, code, parent_id, business_id, enable, del_status, created_time, 
+    updated_tine
     from auth_organization
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, code, parent_id, business_id, enable, del_status, created_time, updated_tine
+    select id, name, code, parent_id, business_id, enable, del_status, created_time, 
+    updated_tine
     from auth_organization
   </select>
 </mapper>

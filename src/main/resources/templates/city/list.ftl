@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>城市列表</title>
+    <title>${title}</title>
 </head>
-<#include "common/common.ftl">
+<#include "../common/common.ftl">
 <body>
 <table class="table table-bordered">
          <#list page.content as item>

@@ -13,6 +13,7 @@ public class IndexController {
     @RequestMapping(value = "")
     public String index(Model model) {
         model.addAttribute("title","首页");
+
         return "index";
     }
 }

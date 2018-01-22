@@ -1,42 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jastz.mybatis.demo.dao.AuthBusinessMapper">
-  <resultMap id="BaseResultMap" type="cn.jastz.mybatis.demo.entity.AuthBusiness">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="enable" jdbcType="TINYINT" property="enable" />
-    <result column="del_status" jdbcType="TINYINT" property="delStatus" />
-    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
-    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <resultMap id="BaseResultMap" type="cn.jastz.mybatis.demo.entity.AuthBusiness">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="enable" jdbcType="TINYINT" property="enable"/>
+        <result column="del_status" jdbcType="TINYINT" property="delStatus"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from auth_business
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.jastz.mybatis.demo.entity.AuthBusiness">
-    insert into auth_business (id, code, enable, 
-      del_status, created_time, updated_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{enable,jdbcType=TINYINT}, 
-      #{delStatus,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}
-      )
+    <insert id="insert" parameterType="cn.jastz.mybatis.demo.entity.AuthBusiness">
+    insert into auth_business (id, name, code, 
+      enable, del_status, created_time, 
+      updated_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=TINYINT}, #{delStatus,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{updatedTime,jdbcType=TIMESTAMP})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.jastz.mybatis.demo.entity.AuthBusiness">
+    <update id="updateByPrimaryKey" parameterType="cn.jastz.mybatis.demo.entity.AuthBusiness">
     update auth_business
-    set code = #{code,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
       enable = #{enable,jdbcType=TINYINT},
       del_status = #{delStatus,jdbcType=TINYINT},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       updated_time = #{updatedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, code, enable, del_status, created_time, updated_time
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, code, enable, del_status, created_time, updated_time
     from auth_business
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, code, enable, del_status, created_time, updated_time
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, code, enable, del_status, created_time, updated_time
     from auth_business
   </select>
+    <select id="queryPage" resultType="cn.jastz.mybatis.demo.entity.AuthBusiness" parameterType="map">
+      select id, name, code, enable, del_status, created_time, updated_time
+    from auth_business
+    </select>
 </mapper>

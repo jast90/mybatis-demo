@@ -24,31 +24,19 @@
                     <a href="${requestContext.getContextPath()}/city/1"><i class="fa fa-circle-o"></i>
                         城市列表</a>
                 </li>
-                <li>
-                    <a href="#"><i class="fa fa-circle-o"></i>菜单1.2</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-circle-o"></i> 菜单1.3</a>
-                </li>
             </ul>
         </li>
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-dashboard"></i>
-                <span>菜单2</span>
+                <span>权限</span>
                 <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
             </a>
             <ul class="treeview-menu">
                 <li>
-                    <a href="#"><i class="fa fa-circle-o"></i> 菜单2.1</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-circle-o"></i> 菜单2.2</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-circle-o"></i> 菜单2.3</a>
+                    <a href="${requestContext.getContextPath()}/auth/business/1"><i class="fa fa-circle-o"></i> 业务管理</a>
                 </li>
             </ul>
         </li>
