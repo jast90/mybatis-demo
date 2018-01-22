@@ -1,6 +1,6 @@
 package cn.jastz.mybatis.demo.service;
 
-import cn.jastz.mybatis.demo.dao.CityDao;
+import cn.jastz.mybatis.demo.dao.CityMapper;
 import cn.jastz.page.domain.Page;
 import cn.jastz.page.domain.PageList;
 import cn.jastz.page.domain.PageRequest;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class CityService {
 
     @Autowired
-    private CityDao cityDao;
+    private CityMapper cityDao;
 
     public Page<City> queryPage(PageRequest pageRequest) {
         PageList<City> pageList = (PageList) cityDao.queryPage(pageRequest, "");

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface CityDao {
+public interface CityMapper {
 
     void save(City city);
 

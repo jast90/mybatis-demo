@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jastz.mybatis.demo.dao.AuthResourceMapper">
+  <resultMap id="BaseResultMap" type="cn.jastz.mybatis.demo.entity.AuthResource">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="platform_id" jdbcType="INTEGER" property="platformId" />
+    <result column="enable" jdbcType="TINYINT" property="enable" />
+    <result column="del_status" jdbcType="TINYINT" property="delStatus" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auth_resource
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jastz.mybatis.demo.entity.AuthResource">
+    insert into auth_resource (id, name, code, 
+      type, parent_id, platform_id, 
+      enable, del_status, created_time, 
+      updated_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT}, #{parentId,jdbcType=INTEGER}, #{platformId,jdbcType=INTEGER}, 
+      #{enable,jdbcType=TINYINT}, #{delStatus,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.jastz.mybatis.demo.entity.AuthResource">
+    update auth_resource
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      platform_id = #{platformId,jdbcType=INTEGER},
+      enable = #{enable,jdbcType=TINYINT},
+      del_status = #{delStatus,jdbcType=TINYINT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, code, type, parent_id, platform_id, enable, del_status, created_time, 
+    updated_time
+    from auth_resource
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, code, type, parent_id, platform_id, enable, del_status, created_time, 
+    updated_time
+    from auth_resource
+  </select>
+</mapper>

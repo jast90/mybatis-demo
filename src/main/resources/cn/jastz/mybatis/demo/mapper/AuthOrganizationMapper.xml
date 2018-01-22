@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jastz.mybatis.demo.dao.AuthOrganizationMapper">
+  <resultMap id="BaseResultMap" type="cn.jastz.mybatis.demo.entity.AuthOrganization">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="business_id" jdbcType="INTEGER" property="businessId" />
+    <result column="enable" jdbcType="TINYINT" property="enable" />
+    <result column="del_status" jdbcType="TINYINT" property="delStatus" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_tine" jdbcType="TIMESTAMP" property="updatedTine" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auth_organization
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jastz.mybatis.demo.entity.AuthOrganization">
+    insert into auth_organization (id, code, parent_id, 
+      business_id, enable, del_status, 
+      created_time, updated_tine)
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{businessId,jdbcType=INTEGER}, #{enable,jdbcType=TINYINT}, #{delStatus,jdbcType=TINYINT}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTine,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.jastz.mybatis.demo.entity.AuthOrganization">
+    update auth_organization
+    set code = #{code,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      business_id = #{businessId,jdbcType=INTEGER},
+      enable = #{enable,jdbcType=TINYINT},
+      del_status = #{delStatus,jdbcType=TINYINT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_tine = #{updatedTine,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, code, parent_id, business_id, enable, del_status, created_time, updated_tine
+    from auth_organization
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, code, parent_id, business_id, enable, del_status, created_time, updated_tine
+    from auth_organization
+  </select>
+</mapper>

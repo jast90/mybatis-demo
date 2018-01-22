@@ -1,9 +1,8 @@
 package cn.jastz.mybatis.demo;
 
-import cn.jastz.mybatis.demo.dao.CityDao;
+import cn.jastz.mybatis.demo.dao.CityMapper;
 import cn.jastz.page.domain.Page;
 import cn.jastz.page.domain.PageRequest;
-import cn.jastz.page.mybatis.PageResultHandler;
 import com.google.common.collect.Lists;
 import me.jastz.common.china.district.City;
 import me.jastz.common.china.district.ProvinceHandler;
@@ -23,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest
 public class MybatisDemoApplicationTests {
     @Autowired
-    private CityDao cityDao;
+    private CityMapper cityDao;
 
     @Test
     public void contextLoads() {
