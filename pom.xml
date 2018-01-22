@@ -92,6 +92,11 @@
             <artifactId>jquery</artifactId>
             <version>3.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>noty</artifactId>
+            <version>3.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
