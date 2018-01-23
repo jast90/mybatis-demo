@@ -48,19 +48,21 @@
     <script type="application/javascript" src="/js/modal.js"></script>
     <script type="application/javascript">
         function showSaveModal(elemet) {
+            var id = "addBusinessModal";
+            var formName = "addBusinessForm";
             $(elemet).myModal({
+                "id": id,
                 "title": "添加业务",
+                "formName": formName,
                 "bodyHtml": $("#addBusinessForm").html(),
                 "okBtn": {
                     "text": "提交",
                     "onclick": function () {
-                        console.log($(".modal-body form[name='addBusinessForm']").serializeArray());
-                        console.log($(".modal-body form[name='addBusinessForm']").serialize());
-                        alert("保存新增业务");
+                        $('form[name="' + formName + '"]').submit();
                     }
                 }
             });
-            $('form[name="addBusinessForm"]').validator();
+            $('form[name="' + formName + '"]').validator();
         }
     </script>
 </javascript>

@@ -4,6 +4,7 @@
 !(function ($) {
     $.fn.myModal = function (options) {
         var defaults = {
+            "id": "id",
             "title": "标题",
             "formName": "name",
             "cancelBtn": {
@@ -26,22 +27,22 @@
             if ($(this).attr("data-target") && $(this).attr("data-toggle")) {
                 return;
             }
-            $(this).attr("data-target", "#exampleModalLong").attr("data-toggle", "modal");
-            var html = '<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">\n' +
-                '  <div class="modal-dialog" role="document">\n' +
+            $(this).attr("data-target", "#" + settings.id).attr("data-toggle", "modal");
+            var html = '<div class="modal fade" id="' + settings.id + '">\n' +
+                '  <div class="modal-dialog">\n' +
                 '    <div class="modal-content">\n' +
                 '    <form class="form-horizontal" name="' + settings.formName + '" data-toggle="validator" role="form">' +
                 '      <div class="modal-header">\n' +
-                '        <h5 class="modal-title" id="exampleModalLongTitle">' + settings.title + '</h5>' +
                 '        <button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                 '          <span aria-hidden="true">&times;</span>' +
-                '        </button>\n' +
+                '        </button>' +
+                '        <h4 class="modal-title">' + settings.title + '</h4>' +
                 '      </div>\n' +
                 '      <div class="modal-body">\n' + settings.bodyHtml +
                 '      </div>\n' +
                 '      <div class="modal-footer">\n' +
                 '        <button type="button" class="btn btn-secondary cancel" data-dismiss="modal">' + settings.cancelBtn.text + '</button>' +
-                '        <button type="button" type="submit" class="btn btn-primary ok">' + settings.okBtn.text + '</button>' +
+                '        <button type="submit" class="btn btn-primary ok">' + settings.okBtn.text + '</button>' +
                 '      </div>\n' +
                 '</form>\n' +
                 '    </div>\n' +
