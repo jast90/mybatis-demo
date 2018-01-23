@@ -50,19 +50,14 @@
         function showSaveModal(elemet) {
             var id = "addBusinessModal";
             var formName = "addBusinessForm";
+            var formAction = "${requestContext.getContextPath()}/auth/business";
             $(elemet).myModal({
                 "id": id,
                 "title": "添加业务",
                 "formName": formName,
-                "bodyHtml": $("#addBusinessForm").html(),
-                "okBtn": {
-                    "text": "提交",
-                    "onclick": function () {
-                        $('form[name="' + formName + '"]').submit();
-                    }
-                }
+                "formAction": formAction,
+                "bodyHtml": $("#addBusinessForm").html()
             });
-            ;
         }
     </script>
 </javascript>

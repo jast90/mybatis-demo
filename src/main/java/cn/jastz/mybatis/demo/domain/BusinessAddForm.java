@@ -3,6 +3,8 @@ package cn.jastz.mybatis.demo.domain;
 import cn.jastz.mybatis.demo.entity.AuthBusiness;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Date;
+
 /**
  * @author zhiwen
  */
@@ -29,6 +31,9 @@ public class BusinessAddForm {
     public AuthBusiness toAuthBusiness() {
         AuthBusiness authBusiness = new AuthBusiness();
         BeanUtils.copyProperties(this, authBusiness);
+        authBusiness.setEnable((byte) 1);
+        authBusiness.setDelStatus((byte) 0);
+        authBusiness.setCreatedTime(new Date());
         return authBusiness;
     }
 }

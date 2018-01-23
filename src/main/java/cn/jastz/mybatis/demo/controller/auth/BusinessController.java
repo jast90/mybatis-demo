@@ -28,7 +28,8 @@ public class BusinessController {
     }
 
     @PostMapping
-    public void save(BusinessAddForm businessAddForm) {
+    public String save(BusinessAddForm businessAddForm) {
         businessService.save(businessAddForm);
+        return "redirect:/auth/business/1";
     }
 }

@@ -7,6 +7,7 @@
             "id": "id",
             "title": "标题",
             "formName": "name",
+            "formAction": "action",
             "cancelBtn": {
                 "text": "取消",
                 "onclick": function () {
@@ -14,9 +15,9 @@
                 }
             },
             "okBtn": {
-                "text": "保存",
+                "text": "提交",
                 "onclick": function () {
-                    alert("保存")
+                    $('form[name="' + settings.formName + '"').ajaxSubmit()
                 }
             },
             "bodyHtml": "<p>内容</p>"
@@ -25,13 +26,13 @@
 
         return this.each(function () {
             if ($(this).attr("data-target") && $(this).attr("data-toggle")) {
-                return;
+                $("#" + settings.id).remove();
             }
             $(this).attr("data-target", "#" + settings.id).attr("data-toggle", "modal");
             var html = '<div class="modal fade" id="' + settings.id + '">\n' +
                 '  <div class="modal-dialog">\n' +
                 '    <div class="modal-content">\n' +
-                '    <form class="form-horizontal" name="' + settings.formName + '" data-toggle="validator" role="form">' +
+                '    <form class="form-horizontal" name="' + settings.formName + '" data-toggle="validator" role="form" action="' + settings.formAction + '" method="post">' +
                 '      <div class="modal-header">\n' +
                 '        <button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                 '          <span aria-hidden="true">&times;</span>' +
