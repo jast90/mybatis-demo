@@ -5,6 +5,7 @@
     $.fn.myModal = function (options) {
         var defaults = {
             "title": "标题",
+            "formName": "name",
             "cancelBtn": {
                 "text": "取消",
                 "onclick": function () {
@@ -29,6 +30,7 @@
             var html = '<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">\n' +
                 '  <div class="modal-dialog" role="document">\n' +
                 '    <div class="modal-content">\n' +
+                '    <form class="form-horizontal" name="' + settings.formName + '" data-toggle="validator" role="form">' +
                 '      <div class="modal-header">\n' +
                 '        <h5 class="modal-title" id="exampleModalLongTitle">' + settings.title + '</h5>' +
                 '        <button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
@@ -39,9 +41,10 @@
                 '      </div>\n' +
                 '      <div class="modal-footer">\n' +
                 '        <button type="button" class="btn btn-secondary cancel" data-dismiss="modal">' + settings.cancelBtn.text + '</button>' +
-                '        <button type="button" class="btn btn-primary ok">' + settings.okBtn.text + '</button>' +
-                '      </div>' +
-                '    </div>' +
+                '        <button type="button" type="submit" class="btn btn-primary ok">' + settings.okBtn.text + '</button>' +
+                '      </div>\n' +
+                '</form>\n' +
+                '    </div>\n' +
                 '  </div>\n' +
                 '</div>';
             $('body').append(html);

@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import me.jastz.common.china.district.City;
 import me.jastz.common.china.district.ProvinceHandler;
 import me.jastz.common.json.JsonUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Ignore
 public class MybatisDemoApplicationTests {
     @Autowired
     private CityMapper cityDao;

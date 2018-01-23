@@ -27,24 +27,22 @@
     <@pagination modelName="page" url="${requestContext.getContextPath()}/auth/business"></@pagination>
 
 <div id="addBusinessForm" style="display: none">
-    <form class="form-horizontal" name="addBusinessForm">
-        <div class="box-body">
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">名称</label>
+    <div class="box-body">
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">名称</label>
 
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="name" placeholder="名称">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">唯一编码</label>
-
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="code" placeholder="唯一编码">
-                </div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" placeholder="名称" required>
             </div>
         </div>
-    </form>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">唯一编码</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="code" placeholder="唯一编码" required>
+            </div>
+        </div>
+    </div>
 </div>
 <javascript>
     <script type="application/javascript" src="/js/modal.js"></script>
@@ -62,6 +60,7 @@
                     }
                 }
             });
+            $('form[name="addBusinessForm"]').validator();
         }
     </script>
 </javascript>
