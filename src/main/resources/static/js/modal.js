@@ -53,6 +53,7 @@
             $("#exampleModalLong .ok").on("click", function () {
                 settings.okBtn.onclick.call(this)
             });
+            $('form[name="' + settings.formName + '"]').validator()
         });
     }
 })(jQuery)
