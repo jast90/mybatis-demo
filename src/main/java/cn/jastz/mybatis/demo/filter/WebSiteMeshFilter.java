@@ -16,6 +16,7 @@ public class WebSiteMeshFilter extends ConfigurableSiteMeshFilter {
     protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) {
         builder.addDecoratorPath("/*"
                 , "/decorator/default.html")
-                .addTagRuleBundle(new CustomTagRuleBundle());
+                .addTagRuleBundle(new CustomTagRuleBundle())
+                .addDecoratorPath("/user/login", "/decorator/login.html");
     }
 }

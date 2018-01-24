@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class OrganizationAddForm {
     private int businessId;
-    private int parentId;
+    private Integer parentId;
     private String code;
     private String name;
 
@@ -49,6 +49,9 @@ public class OrganizationAddForm {
     public AuthOrganization toAuthOrganization() {
         AuthOrganization authOrganization = new AuthOrganization();
         BeanUtils.copyProperties(this, authOrganization);
+        if (authOrganization.getParentId() == 0) {
+            authOrganization.setParentId(null);
+        }
         authOrganization.setEnable((byte) 1);
         authOrganization.setDelStatus((byte) 0);
         authOrganization.setCreatedTime(new Date());
