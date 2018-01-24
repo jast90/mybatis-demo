@@ -56,7 +56,7 @@
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">父级组织</label>
             <div class="col-sm-10">
-                <select name="businessId" class="form-control" required>
+                <select name="parentId" class="form-control" required>
                     <option value="">请选择父级组织</option>
                     <#list parentList as item>
                         <option value="${item.id}">${item.name}</option>

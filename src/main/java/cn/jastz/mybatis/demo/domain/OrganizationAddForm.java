@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class OrganizationAddForm {
     private int businessId;
+    private int parentId;
     private String code;
     private String name;
 
@@ -19,6 +20,14 @@ public class OrganizationAddForm {
 
     public void setBusinessId(int businessId) {
         this.businessId = businessId;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     public String getCode() {
