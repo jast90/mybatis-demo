@@ -21,6 +21,8 @@ public class AuthOrganization {
 
     private Date updatedTine;
 
+    private AuthBusiness authBusiness;
+
     public Integer getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class AuthOrganization {
 
     public void setUpdatedTine(Date updatedTine) {
         this.updatedTine = updatedTine;
+    }
+
+    public AuthBusiness getAuthBusiness() {
+        return authBusiness;
+    }
+
+    public void setAuthBusiness(AuthBusiness authBusiness) {
+        this.authBusiness = authBusiness;
     }
 }

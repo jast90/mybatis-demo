@@ -26,7 +26,8 @@
                 </li>
             </ul>
         </li>
-        <#assign list = "/auth/business/,/auth/platform/"?split(",")/>
+
+        <#assign list = "/auth/business/,/auth/platform/,/auth/role/,/auth/resource/,/auth/organization/"?split(",")/>
         <#assign has = false/>
         <#list list as item>
             <#if requestContext.getRequestUri()?contains(item)>
@@ -50,6 +51,21 @@
                             class="active"</#if>>
                     <a href="${requestContext.getContextPath()}/auth/platform/1"><i class="fa fa-circle-o"></i>
                         平台管理</a>
+                </li>
+                <li <#if requestContext.getRequestUri()?contains("/auth/organization/")>
+                            class="active"</#if>>
+                    <a href="${requestContext.getContextPath()}/auth/organization/1"><i class="fa fa-circle-o"></i>
+                        组织管理</a>
+                </li>
+                <li <#if requestContext.getRequestUri()?contains("/auth/role/")>
+                            class="active"</#if>>
+                    <a href="${requestContext.getContextPath()}/auth/role/1"><i class="fa fa-circle-o"></i>
+                        角色管理</a>
+                </li>
+                <li <#if requestContext.getRequestUri()?contains("/auth/resource/")>
+                            class="active"</#if>>
+                    <a href="${requestContext.getContextPath()}/auth/resource/1"><i class="fa fa-circle-o"></i>
+                        资源管理</a>
                 </li>
             </ul>
         </li>

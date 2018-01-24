@@ -1,6 +1,9 @@
 package cn.jastz.mybatis.demo.dao;
 
 import cn.jastz.mybatis.demo.entity.AuthOrganization;
+import cn.jastz.page.domain.PageRequest;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface AuthOrganizationMapper {
@@ -13,4 +16,8 @@ public interface AuthOrganizationMapper {
     List<AuthOrganization> selectAll();
 
     int updateByPrimaryKey(AuthOrganization record);
+
+    List<AuthOrganization> selectPage(@Param("pageRequest") PageRequest pageRequest);
+
+    List<AuthOrganization> selectListByParentIsNull();
 }

@@ -23,6 +23,8 @@ public class AuthResource {
 
     private Date updatedTime;
 
+    private AuthPlatform authPlatform;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class AuthResource {
 
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
+    }
+
+    public AuthPlatform getAuthPlatform() {
+        return authPlatform;
+    }
+
+    public void setAuthPlatform(AuthPlatform authPlatform) {
+        this.authPlatform = authPlatform;
     }
 }
