@@ -1,4 +1,4 @@
-package cn.jastz.mybatis.demo.service;
+package cn.jastz.mybatis.demo.service.auth;
 
 import cn.jastz.mybatis.demo.dao.AuthBusinessMapper;
 import cn.jastz.mybatis.demo.domain.BusinessAddForm;

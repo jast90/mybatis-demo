@@ -1,7 +1,7 @@
 package cn.jastz.mybatis.demo.controller.auth;
 
 import cn.jastz.mybatis.demo.domain.BusinessAddForm;
-import cn.jastz.mybatis.demo.service.BusinessService;
+import cn.jastz.mybatis.demo.service.auth.BusinessService;
 import cn.jastz.page.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

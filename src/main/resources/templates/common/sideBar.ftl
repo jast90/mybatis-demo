@@ -26,17 +26,30 @@
                 </li>
             </ul>
         </li>
-        <li class="treeview">
+        <#assign list = "/auth/business/,/auth/platform/"?split(",")/>
+        <#assign has = false/>
+        <#list list as item>
+            <#if requestContext.getRequestUri()?contains(item)>
+                <#assign has = true/>
+            </#if>
+        </#list>
+        <li class="treeview <#if has>active menu-open</#if>">
             <a href="#">
                 <i class="fa fa-dashboard"></i>
                 <span>权限</span>
                 <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
             </a>
             <ul class="treeview-menu">
-                <li>
+                <li <#if requestContext.getRequestUri()?contains("/auth/business/")>
+                            class="active"</#if>>
                     <a href="${requestContext.getContextPath()}/auth/business/1"><i class="fa fa-circle-o"></i> 业务管理</a>
+                </li>
+                <li <#if requestContext.getRequestUri()?contains("/auth/platform/")>
+                            class="active"</#if>>
+                    <a href="${requestContext.getContextPath()}/auth/platform/1"><i class="fa fa-circle-o"></i>
+                        平台管理</a>
                 </li>
             </ul>
         </li>

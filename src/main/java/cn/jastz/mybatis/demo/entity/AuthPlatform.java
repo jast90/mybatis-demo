@@ -21,6 +21,8 @@ public class AuthPlatform {
 
     private Date updatedTime;
 
+    private AuthBusiness authBusiness;
+
     public Integer getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class AuthPlatform {
 
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
+    }
+
+    public AuthBusiness getAuthBusiness() {
+        return authBusiness;
+    }
+
+    public void setAuthBusiness(AuthBusiness authBusiness) {
+        this.authBusiness = authBusiness;
     }
 }
