@@ -10,7 +10,7 @@
         <result column="enable" jdbcType="TINYINT" property="enable"/>
         <result column="del_status" jdbcType="TINYINT" property="delStatus"/>
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
-        <result column="updated_tine" jdbcType="TIMESTAMP" property="updatedTine"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
     </resultMap>
     <resultMap id="BusinessResultMap" type="cn.jastz.mybatis.demo.entity.AuthOrganization" extends="BaseResultMap">
         <association property="authBusiness" javaType="cn.jastz.mybatis.demo.entity.AuthBusiness">
@@ -25,11 +25,11 @@
     <insert id="insert" parameterType="cn.jastz.mybatis.demo.entity.AuthOrganization">
     insert into auth_organization (id, name, code, 
       parent_id, business_id, enable, 
-      del_status, created_time, updated_tine
+      del_status, created_time, updated_time
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
       #{parentId,jdbcType=INTEGER}, #{businessId,jdbcType=INTEGER}, #{enable,jdbcType=TINYINT}, 
-      #{delStatus,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTine,jdbcType=TIMESTAMP}
+      #{delStatus,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}
       )
   </insert>
     <update id="updateByPrimaryKey" parameterType="cn.jastz.mybatis.demo.entity.AuthOrganization">
@@ -40,30 +40,31 @@
       business_id = #{businessId,jdbcType=INTEGER},
       enable = #{enable,jdbcType=TINYINT},
       del_status = #{delStatus,jdbcType=TINYINT},
+      del_status = #{delStatus,jdbcType=TINYINT},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
-      updated_tine = #{updatedTine,jdbcType=TIMESTAMP}
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, name, code, parent_id, business_id, enable, del_status, created_time, 
-    updated_tine
+    updated_time
     from auth_organization
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
     select id, name, code, parent_id, business_id, enable, del_status, created_time, 
-    updated_tine
+    updated_time
     from auth_organization
   </select>
     <select id="selectPage" resultMap="BusinessResultMap">
     select a.id, a.name, a.code, a.parent_id, a.business_id, a.enable, a.del_status, a.created_time,
-    a.updated_tine,b.name as business_name
+    a.updated_time,b.name as business_name
     from auth_organization a
     left join auth_business b ON a.business_id = b.id
   </select>
     <select id="selectListByParentIsNull" resultMap="BaseResultMap">
         select id, name, code, parent_id, business_id, enable, del_status, created_time,
-        updated_tine
+        updated_time
         from auth_organization
         where parent_id is null
     </select>

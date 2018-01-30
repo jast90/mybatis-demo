@@ -24,7 +24,7 @@ public class ResourceController extends BaseController<ResourceService> {
 
     @GetMapping("{pageNumber}")
     public String queryPage(@PathVariable("pageNumber") int pageNumber, Model model) {
-        model.addAttribute("title", "角色列表");
+        model.addAttribute("title", "资源列表");
         model.addAttribute("platformList", authPlatformMapper.selectAll());
         model.addAttribute("parentList", service.selectListByParentIdIs0());
         model.addAttribute("page", service.queryPage(PageRequest.of(pageNumber - 1, 15)));

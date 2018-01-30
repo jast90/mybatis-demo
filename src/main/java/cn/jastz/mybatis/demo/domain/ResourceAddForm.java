@@ -13,6 +13,7 @@ public class ResourceAddForm {
     private String name;
     private String code;
     private int platformId;
+    private Integer parentId;
 
     public String getName() {
         return name;
@@ -38,9 +39,20 @@ public class ResourceAddForm {
         this.platformId = platformId;
     }
 
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
+
     public AuthResource toAuthResource() {
         AuthResource authResource = new AuthResource();
         BeanUtils.copyProperties(this, authResource);
+        if (authResource.getParentId() == 0) {
+            authResource.setParentId(null);
+        }
         authResource.setEnable((byte) 1);
         authResource.setDelStatus((byte) 0);
         authResource.setCreatedTime(new Date());

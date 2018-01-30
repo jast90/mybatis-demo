@@ -19,7 +19,7 @@ public class AuthOrganization {
 
     private Date createdTime;
 
-    private Date updatedTine;
+    private Date updatedTime;
 
     private AuthBusiness authBusiness;
 
@@ -87,12 +87,12 @@ public class AuthOrganization {
         this.createdTime = createdTime;
     }
 
-    public Date getUpdatedTine() {
-        return updatedTine;
+    public Date getUpdatedTime() {
+        return updatedTime;
     }
 
-    public void setUpdatedTine(Date updatedTine) {
-        this.updatedTine = updatedTine;
+    public void setUpdatedTime(Date updatedTine) {
+        this.updatedTime = updatedTine;
     }
 
     public AuthBusiness getAuthBusiness() {
