@@ -18,7 +18,7 @@ public class CityService {
     private CityMapper cityDao;
 
     public Page<City> queryPage(PageRequest pageRequest) {
-        PageList<City> pageList = (PageList) cityDao.queryPage(pageRequest, "");
+        PageList<City> pageList = (PageList) cityDao.queryPage(pageRequest, "", null);
         return pageList.getPage();
     }
 }

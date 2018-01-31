@@ -15,5 +15,6 @@ public interface CityMapper {
 
     City queryById(int id);
 
-    List<City> queryPage(@Param("pageRequest") PageRequest pageRequest, @Param("name") String name);
+    List<City> queryPage(@Param("pageRequest") PageRequest pageRequest
+            , @Param("name") String name, @Param("parentIdIsO") Boolean parentIdIsO);
 }

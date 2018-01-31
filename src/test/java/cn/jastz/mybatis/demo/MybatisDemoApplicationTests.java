@@ -2,26 +2,36 @@ package cn.jastz.mybatis.demo;
 
 import cn.jastz.mybatis.demo.dao.CityMapper;
 import cn.jastz.page.domain.Page;
+import cn.jastz.page.domain.PageList;
 import cn.jastz.page.domain.PageRequest;
 import com.google.common.collect.Lists;
 import me.jastz.common.china.district.City;
 import me.jastz.common.china.district.ProvinceHandler;
 import me.jastz.common.json.JsonUtil;
+import me.jastz.common.kafka.KafkaUtil;
+import me.jastz.common.kafka.stream.serdes.SerdesFactory;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.*;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KTable;
+import org.apache.kafka.streams.kstream.Produced;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.CollectionUtils;
 
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertTrue;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Ignore
+//@Ignore
 public class MybatisDemoApplicationTests {
     @Autowired
     private CityMapper cityDao;
@@ -76,7 +86,7 @@ public class MybatisDemoApplicationTests {
 
     @Test
     public void queryPage() {
-        List<City> cityPage = cityDao.queryPage(PageRequest.of(1, 30), "");
+        List<City> cityPage = cityDao.queryPage(PageRequest.of(1, 30), "", null);
         if (cityPage instanceof Page) {
             Page page = (Page) cityPage;
             System.out.println(JsonUtil.objectToPrettyJson(page.getContent()));
@@ -90,5 +100,92 @@ public class MybatisDemoApplicationTests {
         System.out.println(city.hashCode());
         System.out.println(city2.hashCode());
         assertTrue(city.equals(city2));
+    }
+
+    @Test
+    public void cityTopicProducer() {
+        PageRequest pageRequest = PageRequest.of(0, 30);
+        PageList<City> pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", true);
+        if (CollectionUtils.isEmpty(pageList.getPage().getContent()) == false) {
+            pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "provinces", city.getName(), city));
+        }
+        while (pageList.getPage().hasNext()) {
+            pageRequest = PageRequest.of((pageRequest.getPageNumber() + 1), 30);
+            pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", true);
+            if (CollectionUtils.isEmpty(pageList.getPage().getContent()) == false) {
+                pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "provinces", city.getName(), city));
+            }
+        }
+
+        pageRequest = PageRequest.of(0, 30);
+        pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", false);
+        if (CollectionUtils.isEmpty(pageList.getPage().getContent()) == false) {
+            pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "citiesExcludeProvince", city.getName(), city));
+        }
+        while (pageList.getPage().hasNext()) {
+            pageRequest = PageRequest.of((pageRequest.getPageNumber() + 1), 30);
+            pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", false);
+            if (CollectionUtils.isEmpty(pageList.getPage().getContent()) == false) {
+                pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "citiesExcludeProvince", city.getName(), city));
+            }
+        }
+    }
+
+
+    @Test
+    public void provinceWithCities() {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "provinceWithCities");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+
+        StreamsBuilder builder = new StreamsBuilder();
+        KTable<String, City> allCityTable = builder.table("citiesExcludeProvince"
+                , Consumed.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)));
+        KStream<String, City> provinceStream = builder.stream("provinces"
+                , Consumed.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)));
+        //TODO 连接出来的数据有问题， allCityTable一直为空
+        provinceStream.leftJoin(allCityTable, (province, city) -> {
+            ProvinceAndCity provinceAndCity = new ProvinceAndCity();
+            provinceAndCity.setCity(province);
+            provinceAndCity.getChildren().add(city);
+            return provinceAndCity;
+        }).to("provinceWithCity", Produced.with(Serdes.String(), SerdesFactory.serdesFrom(ProvinceAndCity.class)));
+
+        KafkaStreams streams = new KafkaStreams(builder.build(), props);
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        // attach shutdown handler to catch control-c
+        Runtime.getRuntime().addShutdownHook(new Thread("streams-shutdown-hook") {
+            @Override
+            public void run() {
+                streams.close();
+                latch.countDown();
+            }
+        });
+
+        try {
+            streams.start();
+            latch.await();
+        } catch (Throwable e) {
+            System.exit(1);
+        }
+        System.exit(0);
+    }
+
+    @Test
+    public void consumer() {
+        KafkaUtil.consumer(new Properties(), ProvinceAndCity.class, "provinceWithCity");
+    }
+
+    @Test
+    public void produceString() {
+        KafkaUtil.producer(new Properties(), "strings", "key", "hello");
+    }
+
+    @Test
+    public void consumeString() {
+        KafkaUtil.consumer(new Properties(), City.class, "citiesExcludeProvince");
     }
 }

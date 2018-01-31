@@ -23,7 +23,17 @@
 
     <select id="queryPage" resultType="city"
             parameterType="map">
-      SELECT * FROM city WHERE name LIKE concat("%",#{name},"%")
+        SELECT * FROM city WHERE name LIKE concat("%",#{name},"%")
+
+        <choose>
+            <when test="parentIdIsO == false ">
+                AND parent_id !=0
+            </when>
+            <when test="parentIdIsO == true ">
+                AND parent_id =0
+            </when>
+        </choose>
+
     </select>
 
 </mapper>
