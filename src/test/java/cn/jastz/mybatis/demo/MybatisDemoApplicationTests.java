@@ -105,30 +105,17 @@ public class MybatisDemoApplicationTests {
     @Test
     public void cityTopicProducer() {
         PageRequest pageRequest = PageRequest.of(0, 30);
-        PageList<City> pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", true);
+        PageList<City> pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", null);
         if (CollectionUtils.isEmpty(pageList.getPage().getContent()) == false) {
-            pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "provinces", city.getName(), city));
+            pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "cities", city.getName(), city));
         }
-        while (pageList.getPage().hasNext()) {
+       /* while (pageList.getPage().hasNext()) {
             pageRequest = PageRequest.of((pageRequest.getPageNumber() + 1), 30);
-            pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", true);
+            pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", null);
             if (CollectionUtils.isEmpty(pageList.getPage().getContent()) == false) {
-                pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "provinces", city.getName(), city));
+                pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "cities", city.getName(), city));
             }
-        }
-
-        pageRequest = PageRequest.of(0, 30);
-        pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", false);
-        if (CollectionUtils.isEmpty(pageList.getPage().getContent()) == false) {
-            pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "citiesExcludeProvince", city.getName(), city));
-        }
-        while (pageList.getPage().hasNext()) {
-            pageRequest = PageRequest.of((pageRequest.getPageNumber() + 1), 30);
-            pageList = (PageList<City>) cityDao.queryPage(pageRequest, "", false);
-            if (CollectionUtils.isEmpty(pageList.getPage().getContent()) == false) {
-                pageList.getPage().getContent().forEach(city -> KafkaUtil.producer(new Properties(), "citiesExcludeProvince", city.getName(), city));
-            }
-        }
+        }*/
     }
 
 
@@ -138,21 +125,27 @@ public class MybatisDemoApplicationTests {
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "provinceWithCities");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SerdesFactory.serdesFrom(City.class).getClass());
 
         StreamsBuilder builder = new StreamsBuilder();
-        KTable<String, City> allCityTable = builder.table("citiesExcludeProvince"
+        KStream<String, City> citiesStream = builder.stream("cities"
                 , Consumed.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)));
-        KStream<String, City> provinceStream = builder.stream("provinces"
-                , Consumed.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)));
-        //TODO 连接出来的数据有问题， allCityTable一直为空
-        provinceStream.leftJoin(allCityTable, (province, city) -> {
-            ProvinceAndCity provinceAndCity = new ProvinceAndCity();
-            provinceAndCity.setCity(province);
-            provinceAndCity.getChildren().add(city);
-            return provinceAndCity;
-        }).to("provinceWithCity", Produced.with(Serdes.String(), SerdesFactory.serdesFrom(ProvinceAndCity.class)));
 
+        KTable<String, ArrayList<City>> citiesByProvince = citiesStream.filter((name, city) -> city.getParentId() != 0)
+                .groupBy((k, v) -> String.valueOf(v.getParentId())).aggregate(ArrayList::new, (k, v, a) -> {
+                    a.add(v);
+                    return a;
+                });
+        KStream<String, City> provinceStream = citiesStream
+                .filter((name, city) -> city.getParentId() == 0);
+        KTable<String, City> provinceWithCitiesTable = provinceStream.groupBy((k, v) -> String.valueOf(v.getId()))
+                .reduce((a, b) -> a)
+                .join(citiesByProvince, (province, cites) -> {
+                    province.setChildren(cites);
+                    return province;
+                });
+        provinceWithCitiesTable.toStream().to("provinceWithCity"
+                , Produced.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)));
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
         final CountDownLatch latch = new CountDownLatch(1);
 
@@ -176,16 +169,11 @@ public class MybatisDemoApplicationTests {
 
     @Test
     public void consumer() {
-        KafkaUtil.consumer(new Properties(), ProvinceAndCity.class, "provinceWithCity");
+        KafkaUtil.consumer(new Properties(), City.class, "provinceWithCity");
     }
 
     @Test
     public void produceString() {
         KafkaUtil.producer(new Properties(), "strings", "key", "hello");
-    }
-
-    @Test
-    public void consumeString() {
-        KafkaUtil.consumer(new Properties(), City.class, "citiesExcludeProvince");
     }
 }
