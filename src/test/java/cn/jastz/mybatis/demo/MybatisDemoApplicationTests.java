@@ -11,11 +11,11 @@ import me.jastz.common.json.JsonUtil;
 import me.jastz.common.kafka.KafkaUtil;
 import me.jastz.common.kafka.stream.serdes.SerdesFactory;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.*;
-import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.Produced;
-import org.junit.Ignore;
+import org.apache.kafka.streams.Consumed;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.kstream.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertTrue;
@@ -125,27 +128,32 @@ public class MybatisDemoApplicationTests {
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "provinceWithCities");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SerdesFactory.serdesFrom(City.class).getClass());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
         StreamsBuilder builder = new StreamsBuilder();
         KStream<String, City> citiesStream = builder.stream("cities"
                 , Consumed.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)));
 
         KTable<String, ArrayList<City>> citiesByProvince = citiesStream.filter((name, city) -> city.getParentId() != 0)
-                .groupBy((k, v) -> String.valueOf(v.getParentId())).aggregate(ArrayList::new, (k, v, a) -> {
+                .groupBy((k, v) -> String.valueOf(v.getParentId())
+                        , Serialized.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)))
+                .aggregate(ArrayList<City>::new, (k, v, a) -> {
                     a.add(v);
                     return a;
-                });
-        KStream<String, City> provinceStream = citiesStream
+                }/*, Materialized.with(Serdes.String(), SerdesFactory.serdesFrom(ArrayList.class))*/);
+
+        citiesByProvince.toStream().print(Printed.toSysOut());
+        /*KStream<String, City> provinceStream = citiesStream
                 .filter((name, city) -> city.getParentId() == 0);
-        KTable<String, City> provinceWithCitiesTable = provinceStream.groupBy((k, v) -> String.valueOf(v.getId()))
+        KTable<String, City> provinceWithCitiesTable = provinceStream.groupBy((k, v) -> String.valueOf(v.getId())
+                , Serialized.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)))
                 .reduce((a, b) -> a)
                 .join(citiesByProvince, (province, cites) -> {
                     province.setChildren(cites);
                     return province;
                 });
         provinceWithCitiesTable.toStream().to("provinceWithCity"
-                , Produced.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)));
+                , Produced.with(Serdes.String(), SerdesFactory.serdesFrom(City.class)));*/
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
         final CountDownLatch latch = new CountDownLatch(1);
 
@@ -174,6 +182,51 @@ public class MybatisDemoApplicationTests {
 
     @Test
     public void produceString() {
-        KafkaUtil.producer(new Properties(), "strings", "key", "hello");
+        KafkaUtil.producer(new Properties(), "strings1", "key", "hello world");
+    }
+
+    @Test
+    public void streams() {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+
+        StreamsBuilder builder = new StreamsBuilder();
+
+        KStream<String, String> stream = builder.stream("strings1", Consumed.with(Serdes.String(), Serdes.String()));
+        stream.print(Printed.toSysOut());//打印：[KSTREAM-SOURCE-0000000000]: key, "hello world"
+
+        KStream<String, Diji> stream1 = stream.flatMapValues(value -> {
+            List<String> names = Arrays.asList(value.split("\\W+"));
+            /* return names;*/
+            List<Diji> dijis = Lists.newArrayList();
+            names.forEach(e -> dijis.add(new Diji(e)));
+            return dijis;
+        });
+        KGroupedStream<Diji, Diji> kGroupedStream = stream1.groupBy((k, v) -> v
+                , Serialized.with(SerdesFactory.serdesFrom(Diji.class), SerdesFactory.serdesFrom(Diji.class)));
+        KStream<Diji, Long> wordStream = kGroupedStream.count().toStream();
+        wordStream.print(Printed.toSysOut());//打印：[KSTREAM-FLATMAPVALUES-0000000002]: key, "hello [KSTREAM-FLATMAPVALUES-0000000002]: key, world"
+        KafkaStreams streams = new KafkaStreams(builder.build(), props);
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        // attach shutdown handler to catch control-c
+        Runtime.getRuntime().addShutdownHook(new Thread("streams-shutdown-hook") {
+            @Override
+            public void run() {
+                streams.close();
+                latch.countDown();
+            }
+        });
+
+        try {
+            streams.start();
+            latch.await();
+        } catch (Throwable e) {
+            System.exit(1);
+        }
+        System.exit(0);
     }
 }
