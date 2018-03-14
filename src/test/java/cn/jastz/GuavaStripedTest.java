@@ -39,9 +39,9 @@ public class GuavaStripedTest {
     public void testStriped1() {
         ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         for (int i = 2; i > 0; i--) {
-            executorService.submit(() -> {
-                stripedService.open("hello" + UUID.randomUUID());
-            });
+            Device device = new Device();
+            device.setId(1);
+            executorService.submit(() -> stripedService.openDevice(device));
         }
         executorService.shutdown();
         while (true) {
