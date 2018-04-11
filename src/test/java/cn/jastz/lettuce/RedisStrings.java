@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author zhiwen
  */
-public class RedisStringSingleThread extends AbstractTest {
+public class RedisStrings extends AbstractTest {
 
     @Test
     public void append() {
