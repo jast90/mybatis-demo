@@ -6,6 +6,7 @@ import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import io.lettuce.core.pubsub.RedisPubSubAdapter;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
+import io.lettuce.core.pubsub.api.async.RedisPubSubAsyncCommands;
 import io.lettuce.core.pubsub.api.sync.RedisPubSubCommands;
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +19,7 @@ public class AbstractTest extends RedisPubSubAdapter {
     protected RedisClient redisClient;
     protected RedisCommands<String, String> commands;
     protected RedisPubSubCommands<String, String> sysc;
+    protected RedisPubSubAsyncCommands<String, String> asysc;
     protected StatefulRedisPubSubConnection statefulRedisPubSubConnection;
 
 
@@ -30,6 +32,7 @@ public class AbstractTest extends RedisPubSubAdapter {
         statefulRedisPubSubConnection = redisClient.connectPubSub();
         statefulRedisPubSubConnection.addListener(new MyRedisPubSubAdapter());
         sysc = statefulRedisPubSubConnection.sync();
+        asysc = statefulRedisPubSubConnection.async();
     }
 
     @After

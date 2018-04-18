@@ -1,7 +1,6 @@
 package cn.jastz.lettuce.pubsub;
 
 import cn.jastz.lettuce.AbstractTest;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -12,14 +11,15 @@ public class RedisPubSub extends AbstractTest {
 
     @Test
     public void publish() {
-        sysc.subscribe("newOrder");
-        Assert.assertTrue(sysc.publish("newOrder", "下单成功") == 1);
+        System.out.println(commands.publish("newOrder", "下单成功"));
     }
 
     @Test
     public void subscribe() {
         sysc.subscribe("newOrder");
-        sysc.clientGetname();
+        while (true) {
+
+        }
     }
 
 }

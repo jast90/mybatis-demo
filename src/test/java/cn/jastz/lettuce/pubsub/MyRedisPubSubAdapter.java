@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author zhiwen
  */
-public class MyRedisPubSubAdapter extends RedisPubSubAdapter {
+public class MyRedisPubSubAdapter extends RedisPubSubAdapter<String, String> {
 
     RedisCommands<String, String> commands = RedisClient.create("redis://localhost").connect().sync();
 
