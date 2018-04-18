@@ -1,4 +1,4 @@
-package cn.jastz.lettuce;
+package cn.jastz.redis.lettuce;
 
 import io.lettuce.core.GeoArgs;
 import me.jastz.common.amap.AMapTemplate;

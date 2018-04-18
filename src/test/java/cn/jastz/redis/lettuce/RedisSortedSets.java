@@ -1,6 +1,5 @@
-package cn.jastz.lettuce;
+package cn.jastz.redis.lettuce;
 
-import io.lettuce.core.Limit;
 import io.lettuce.core.Range;
 import io.lettuce.core.ScoredValue;
 import io.lettuce.core.ZStoreArgs;

@@ -1,4 +1,4 @@
-package cn.jastz.lettuce.pubsub;
+package cn.jastz.redis.lettuce.pubsub;
 
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.sync.RedisCommands;

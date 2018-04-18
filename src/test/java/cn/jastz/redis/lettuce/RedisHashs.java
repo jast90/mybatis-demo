@@ -1,4 +1,4 @@
-package cn.jastz.lettuce;
+package cn.jastz.redis.lettuce;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

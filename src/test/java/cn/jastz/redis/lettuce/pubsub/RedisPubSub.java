@@ -1,6 +1,6 @@
-package cn.jastz.lettuce.pubsub;
+package cn.jastz.redis.lettuce.pubsub;
 
-import cn.jastz.lettuce.AbstractTest;
+import cn.jastz.redis.lettuce.AbstractTest;
 import org.junit.Test;
 
 /**

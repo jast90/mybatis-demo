@@ -1,4 +1,4 @@
-package cn.jastz.lettuce;
+package cn.jastz.redis.lettuce;
 
 import io.lettuce.core.SortArgs;
 import io.lettuce.core.api.StatefulRedisConnection;

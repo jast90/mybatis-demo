@@ -1,4 +1,4 @@
-package cn.jastz.lettuce;
+package cn.jastz.redis.lettuce;
 
 import org.junit.Assert;
 import org.junit.Test;

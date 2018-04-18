@@ -1,6 +1,6 @@
-package cn.jastz.lettuce;
+package cn.jastz.redis.lettuce;
 
-import cn.jastz.lettuce.pubsub.MyRedisPubSubAdapter;
+import cn.jastz.redis.lettuce.pubsub.MyRedisPubSubAdapter;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
