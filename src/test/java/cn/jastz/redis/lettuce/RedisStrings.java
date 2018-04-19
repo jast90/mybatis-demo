@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author zhiwen
@@ -117,11 +119,36 @@ public class RedisStrings extends AbstractTest {
 
     @Test
     public void decrby() {
-        StatefulRedisConnection<String, String> connection = redisClient.connect();
-        RedisCommands<String, String> commands = connection.sync();
         String key = "decrby-key", value = "1";
         commands.set(key, value);
         Assert.assertTrue(commands.decrby(key, 1) == 0);
+    }
+
+    @Test
+    public void multiThreadDecrby() {
+        String key = "multiThreadDecrby-key";
+        commands.del(key, "荣耀p20秒杀");
+        commands.set(key, "10");
+        ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        for (int i = 1000; i > 0; i--) {
+            service.execute(() -> {
+                long value = commands.decr(key);
+                if (value >= 0) {
+                    System.out.println(String.format("%s：剩余库存：%s", Thread.currentThread().getName(), value));
+                    commands.lpush("荣耀p20秒杀", "下单成功");
+                } else {
+                    System.out.println(String.format("%s：库存不足", Thread.currentThread().getName()));
+                    System.out.println("购买失败");
+                }
+
+            });
+        }
+        service.shutdown();
+        while (true) {
+            if (service.isTerminated()) {
+                break;
+            }
+        }
     }
 
     @Test
